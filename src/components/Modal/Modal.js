@@ -1,34 +1,35 @@
-import { useEffect } from 'react';
+import { Component } from 'react';
 import { Overlay, ModalWindow } from './Modal.module';
 
-function Modal(options) {
-  useEffect(() => {
-    window.addEventListener('keydown', handleKeydown);
-
-	return ()=> {
-		window.removeEventListener('keydown', handleKeydown);
+class Modal extends Component {
+	componentDidMount() {
+		window.addEventListener('keydown', this.handleKeydown);
 	}
-  }, []);
 
-  const handleKeydown = event => {
-    console.log('click', event.code);
-	console.log('modal', options);
-    if (event.code === 'Escape') {
-      options.onClose();
-    }
-  };
+	componentWillUnmount() {
+		window.removeEventListener("keydown", this.handleKeydown);
+	}
 
-  const handleBackdropClick = event => {
-    if (event.target === event.currentTarget) {
-      options.onClose();
-    }
-  };
+	handleKeydown = (e) => {
+		if(e.code === "Escape") {
+			this.props.onClose();
+		}
+	}
 
-  return (
-    <Overlay onClick={handleBackdropClick}>
-      <ModalWindow>{options.children}</ModalWindow>
-    </Overlay>
-  );
+	handleBackdropClick = (e) => {
+		if (e.target.value === e.currentTarget.value) {
+			this.props.onClose();
+		}
+	}
+
+  render() {
+    return (
+      <Overlay onClick={this.handleBackdropClick}>
+        <ModalWindow>{this.props.children}
+        </ModalWindow>
+      </Overlay>
+    );
+  }
 }
 
 export default Modal;

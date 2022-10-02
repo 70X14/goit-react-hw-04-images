@@ -1,9 +1,12 @@
+import React, {Component} from "react";
 import { LoadButton } from "./Button.module";
 
-function Button({onClick}) {
+class Button extends Component {
+	render() {
 		return (
-			<LoadButton type="button" onClick={onClick}>Load more</LoadButton>
+			<LoadButton type="button" onClick={this.props.onClick}>Load more</LoadButton>
 		)
+	}
 };
 
 
